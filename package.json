@@ -4,6 +4,8 @@
   "description": "we all femily test from Klevakin Artem",
   "main": "index.js",
   "scripts": {
+    "start": "node commands/start.js",
+    "build": "webpack --config commands/build.js --progress --colors -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Artem Klevakin",
@@ -17,6 +19,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-1": "^6.16.0",
+    "html-webpack-plugin": "^2.24.1",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "^1.16.2",
