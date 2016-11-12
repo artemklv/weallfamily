@@ -11,7 +11,6 @@ module.exports = {
   module: {
     loaders: [
       {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel']},
-      {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file'},
     ]
   }
 }

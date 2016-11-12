@@ -2,6 +2,12 @@ let config = require('../webpack.config')
 let webpack =  require('webpack')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 
+process.env.NODE_ENV = 'production'
+const GLOBALS = {
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  __DEV__: false
+}
+
 // add plugins
 config.plugins = config.plugins.concat([
   new webpack.optimize.UglifyJsPlugin({

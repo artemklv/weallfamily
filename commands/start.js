@@ -3,6 +3,12 @@ let webpack =  require('webpack')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
 var WebpackDevServer = require('webpack-dev-server')
 
+process.env.NODE_ENV = 'development'
+const GLOBALS = {
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  __DEV__: false
+}
+
 // add plugins
 config.plugins = config.plugins.concat([
   new webpack.HotModuleReplacementPlugin(),
@@ -29,5 +35,5 @@ new WebpackDevServer(webpack(config), {
   if (error) {
     console.log(error)
   }
-  console.log('development serve run at http://localhost:3000!')
+  console.log('development server run at http://localhost:3000')
 })
