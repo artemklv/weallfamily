@@ -1,0 +1,6 @@
+export const USER_SET            = 'USER_SET'
+export const USER_IS_AUTH_SET    = 'USER_IS_AUTH_SET'
+export const USER_EMAIL_SET      = 'USER_EMAIL_SET'
+export const USER_FIRST_NAME_SET = 'USER_FIRST_NAME_SET'
+export const USER_LAST_NAME_SET  = 'USER_LAST_NAME'
+export const USER_PASSWORD_SET   = 'user_password_set'

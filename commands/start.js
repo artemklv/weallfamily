@@ -22,18 +22,18 @@ config.entry = ['webpack-dev-server/client?http://localhost:3000',
   'webpack/hot/only-dev-server'].concat(config.entry)
 
 // add source map
-config.devtool = 'cheap-eval-source-map'
+config.devtool = 'source-map'
 
-// run dev server
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
   inline: false,
   historyApiFallback: true,
   quiet: true
-}).listen(3000, 'localhost', function (error, result) {
-  if (error) {
+}).listen(3000, 'localhost', function (error, stats) {
+  if (error) { // so a fatal error occurred. Stop here.
     console.log(error)
+    return 1
   }
   console.log('development server run at http://localhost:3000')
 })
