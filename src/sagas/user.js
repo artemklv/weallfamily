@@ -21,7 +21,6 @@ import {
 } from '../constants/sagaActionTypes'
 import { userInitState } from '../store/initState'
 
-
 export function* login({email, password}) {
   try {
     yield put({type: APPLICATION_IS_FETCHING_SET, payload: true})
@@ -68,7 +67,7 @@ export function* logout() {
 
 export function* logoutWatch() {
   while(true) {
-    const {email, password} = yield take(SAGA_USER_LOGOUT)
+    yield take(SAGA_USER_LOGOUT)
     yield call(logout)
   }
 }

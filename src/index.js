@@ -6,7 +6,8 @@ import React from 'react'
 import configureStore from './store/configureStore'
 import rootSaga from './sagas'
 import { Provider } from 'react-redux'
-import ApplicationContainer from './containers/ApplicationContainer'
+import Route from './Route';
+import { Router, browserHistory } from 'react-router';
 
 // add data to fake server
 api.init(initUsers);
@@ -16,7 +17,7 @@ store.runSaga(rootSaga)
 
 render(
     <Provider store={store}>
-        <ApplicationContainer />
+      <Router history={browserHistory} children={Route} />
     </Provider>
   , document.getElementById('app')
 )
