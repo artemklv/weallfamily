@@ -5,7 +5,7 @@ import ApplicationSelector from './ApplicationSelector';
 const ApplicationContainer = (props) => {
   return (
     <div className="application-outer">
-      <h1>This is a test page</h1>
+      <div className="content-outer">{props.children}</div>
     </div>
   );
 };
