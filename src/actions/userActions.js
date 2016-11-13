@@ -1,6 +1,9 @@
 import {
   USER_SET,
   USER_IS_AUTH_SET,
+  USER_IS_LOGIN_FAIL_SET,
+  USER_IS_LOGOUT_FAIL_SET,
+  USER_IS_PROFILE_FAIL_SET,
   USER_EMAIL_SET,
   USER_FIRST_NAME_SET,
   USER_LAST_NAME_SET,
@@ -17,6 +20,27 @@ export function userSet(data) {
 export function userIsAuthSet(value) {
   return  {
     type: USER_IS_AUTH_SET,
+    payload: value,
+  }
+}
+
+export function userIsLoginFailSet(value) {
+  return {
+    type: USER_IS_LOGIN_FAIL_SET,
+    payload: value,
+  }
+}
+
+export function userIsLogoutFailSet(value) {
+  return {
+    type: USER_IS_LOGOUT_FAIL_SET,
+    payload: value,
+  }
+}
+
+export function userIsProfileFaileSet(value) {
+  return {
+    type: USER_IS_PROFILE_FAIL_SET,
     payload: value,
   }
 }

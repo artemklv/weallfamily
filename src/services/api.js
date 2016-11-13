@@ -1,9 +1,21 @@
 import md5 from 'md5'
 
+const STATUS_OK = 200;
+const STATUS_NOT_FOUND = 404;
+
 /**
  * Эмулирует взаимодействие с сервером
  */
 class Api {
+
+  static get STATUS_OK() {
+    return STATUS_OK
+  }
+
+  static get STATUS_NOT_FOUND() {
+    return STATUS_NOT_FOUND
+  }
+
   constructor(env) {
     if (env === 'test') {
       this.localStorage = require('localStorage')
@@ -11,6 +23,10 @@ class Api {
       this.localStorage = window.localStorage
     }
     this._checkAuth = this._checkAuth.bind(this)
+    this._people = this._people.bind(this)
+    this._login = this._login.bind(this)
+    this._logout = this._logout.bind(this)
+    this._markFriend = this._markFriend.bind(this)
     this.init = this.init.bind(this)
   }
 
@@ -177,9 +193,9 @@ class Api {
           response = {email: data.email, isFriend: this._markFriend(data)}
           break
         default:
-          return reject(this._handleResponse(response, 404, 'Page not found'))
+          return reject(this._handleResponse(response, this.STATUS_NOT_FOUND, 'Page not found'))
       }
-      return this._handleResponse(response, 200, '')
+      return this._handleResponse(response, this.STATUS_OK, '')
     })
   }
 
