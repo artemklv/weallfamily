@@ -7,9 +7,12 @@ import { Provider } from 'react-redux'
 import Route from './Route';
 import { Router, browserHistory } from 'react-router';
 import store from './store/createStore'
+import { sagaUserInit } from './actions/sagaActions'
 
 // add data to fake server
 api.init(initUsers);
+//
+store.dispatch(sagaUserInit())
 
 render(
     <Provider store={store}>

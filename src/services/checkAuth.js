@@ -1,7 +1,6 @@
 import api from './api'
 import store from '../store/createStore'
 import { applicationErrorSet } from '../actions/applicationActions'
-import { sagaUserInit } from '../actions/sagaActions'
 
 export default function(nextState, replace, callback) {
   // Если пользователь уже авторизован (переходит по ссылке внутри приложения)
@@ -14,9 +13,6 @@ export default function(nextState, replace, callback) {
     if ( !response.status === api.STATUS_OK || !response.payload.isAuth) {
       store.dispatch(applicationErrorSet('Для просмотра данных страниц необходимо авторизоваться'))
       replace('/')
-    } else {
-      // Формируем стейт с данными пользователя
-      store.dispatch(sagaUserInit())
     }
     callback()
   }).catch( error => {
