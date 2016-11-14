@@ -1,20 +1,12 @@
 import md5 from 'md5'
 
-const STATUS_OK = 200;
-const STATUS_NOT_FOUND = 404;
+export const API_STATUS_OK = 200;
+export const API_STATUS_NOT_FOUND = 404;
 
 /**
  * Эмулирует взаимодействие с сервером
  */
 class Api {
-
-  static get STATUS_OK() {
-    return STATUS_OK
-  }
-
-  static get STATUS_NOT_FOUND() {
-    return STATUS_NOT_FOUND
-  }
 
   constructor(env) {
     if (env === 'test') {
@@ -233,10 +225,10 @@ class Api {
           response = {email: data.email, isFriend: this._markFriend(data)}
           break
         default:
-          return reject(this._handleResponse(response, this.STATUS_NOT_FOUND, 'Page not found'))
+          return reject(this._handleResponse(response, API_STATUS_NOT_FOUND, 'Page not found'))
           break
       }
-      return resolve(this._handleResponse(response, this.STATUS_OK, ''))
+      return resolve(this._handleResponse(response, API_STATUS_OK, ''))
     })
   }
 
