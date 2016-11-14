@@ -1,4 +1,4 @@
-import api from '../services/api';
+import api, { API_STATUS_OK } from '../services/api';
 import { call, put, take } from 'redux-saga/effects'
 import {
   USER_SET,
@@ -27,12 +27,13 @@ export function* login(data) {
   try {
     yield put({type: APPLICATION_IS_FETCHING_SET, payload: true})
     const response = yield call(api.fetch, '/login', data)
-    if (response.status === 200 && response.payload) {
+    if (response.status === API_STATUS_OK && response.payload) {
       yield put({type: USER_SET, payload: response.payload})
       yield put({type: USER_IS_AUTH_SET, payload: true})
       yield put({type: APPLICATION_ERROR_SET, payload: ''})
     } else {
       yield put({type: USER_IS_LOGIN_FAIL_SET, payload: true})
+      yield put({type: APPLICATION_ERROR_SET, payload: 'Неверный пользователь или пароль'})
     }
   } catch (error) {
     yield put({type: USER_IS_LOGIN_FAIL_SET, payload: true})
@@ -52,7 +53,7 @@ export function* logout() {
   try {
     yield put({type: APPLICATION_IS_FETCHING_SET, payload: true})
     const response = yield call(api.fetch, '/logout')
-    if (response.status === 200) {
+    if (response.status === API_STATUS_OK) {
       if (response.payload.logout) {
         yield put({type: USER_SET, payload: userInitState})
       } else {
@@ -79,7 +80,7 @@ export function* profile({email, firstName, lastName, password}) {
   try {
     yield put({type: APPLICATION_IS_FETCHING_SET, payload: true})
     const response = yield call(api.fetch, '/profile', {email, firstName, lastName, password})
-    if (response.status === 200 && response.payload.saved) {
+    if (response.status === API_STATUS_OK && response.payload.saved) {
       yield put({type: USER_EMAIL_SET, payload: email})
       yield put({type: USER_FIRST_NAME_SET, payload: firstName})
       yield put({type: USER_LAST_NAME_SET, payload: lastName})
@@ -105,7 +106,7 @@ export function* init() {
   try {
     yield put({type: APPLICATION_IS_FETCHING_SET, payload: true})
     const { status, payload } = yield call(api.fetch, '/user')
-    if (status === 200 && payload.user) {
+    if (status === API_STATUS_OK && payload.user) {
       yield put({type: USER_SET, payload: payload.user})
       yield put({type: USER_IS_AUTH_SET, payload: true})
     }
