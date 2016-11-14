@@ -1,7 +1,8 @@
 import {
   SAGA_USER_LOGIN,
   SAGA_USER_LOGOUT,
-  SAGA_USER_PROFILE
+  SAGA_USER_PROFILE,
+  SAGA_USER_INIT
 } from '../constants/sagaActionTypes'
 
 export function sagaUserLogin(email, password) {
@@ -25,5 +26,11 @@ export function sagaUserProfile({email, firstName, lastName, password}) {
     firstName,
     lastName,
     password,
+  }
+}
+
+export function sagaUserInit() {
+  return {
+    type: SAGA_USER_INIT,
   }
 }

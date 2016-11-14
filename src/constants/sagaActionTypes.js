@@ -1,3 +1,4 @@
 export const SAGA_USER_LOGIN   = 'SAGA_USER_LOGIN'
 export const SAGA_USER_LOGOUT  = 'SAGA_USER_LOGOUT'
 export const SAGA_USER_PROFILE = 'SAGA_USER_PROFILE'
+export const SAGA_USER_INIT    = 'SAGA_USER_INIT'

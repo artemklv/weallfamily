@@ -22,12 +22,36 @@ class Api {
     } else {
       this.localStorage = window.localStorage
     }
+    this._getData = this._getData.bind(this)
+    this._setData = this._setData.bind(this)
     this._checkAuth = this._checkAuth.bind(this)
     this._people = this._people.bind(this)
     this._login = this._login.bind(this)
     this._logout = this._logout.bind(this)
+    this._user = this._user.bind(this)
     this._markFriend = this._markFriend.bind(this)
     this.init = this.init.bind(this)
+    this.fetch = this.fetch.bind(this)
+    this.fetch = this.fetch.bind(this)
+  }
+
+  /**
+   * Извлекаем данные из хранилища
+   * @param {string} key
+   * @private
+   */
+  _getData(key) {
+    return JSON.parse(this.localStorage.getItem(key))
+  }
+
+  /**
+   * Сохраняем данные в хранилище
+   * @param {string} key
+   * @param {object} data
+   * @private
+   */
+  _setData(key, data) {
+    this.localStorage.setItem(key, JSON.stringify(data))
   }
 
   /**
@@ -36,16 +60,7 @@ class Api {
    * @private
    */
   _checkAuth() {
-    const token = this.localStorage.getItem('token')
-    if (!token) {
-      return false;
-    }
-    const people = this.localStorage.getItem('people')
-    if (typeof token !== 'object') {
-      return false;
-    }
-    const peopleIndexes = Object.keys(people)
-    return peopleIndexes.indexOf(token) !== -1
+    return !!this._getData('token')
   }
 
   /**
@@ -55,8 +70,8 @@ class Api {
    * @private
    */
   _login(data) {
-    const people = this.localStorage.getItem('people')
-    if (typeof people !== 'object') {
+    const people = this._getData('people')
+    if (!people) {
       return null
     }
     const user = people[data.email]
@@ -64,7 +79,9 @@ class Api {
       return null
     }
     if (user.password === md5(data.password)) {
-      this.localStorage.setItem('token', md5(user.email))
+      delete user.password
+      delete user.isFriend
+      this._setData('token', md5(user.email))
       return user
     }
     return null
@@ -87,9 +104,29 @@ class Api {
    * @private
    */
   _profile(data) {
-    const  people = this.localStorage.getItem('people')
-    this.localStorage.setItem('people', {...people, [data.email]: data})
+    const people = this._getData('people')
+    this._setData('people', {...people, [data.email]: data})
     return true
+  }
+
+  /**
+   * Возвращает текущего авторизованного пользователя
+   * @param {object} data
+   * @returns {boolean}
+   * @private
+   */
+  _user() {
+    const token = this._getData('token')
+    const people = this._getData('people')
+    const peopleIndexes = Object.keys(people)
+    for (let index of peopleIndexes) {
+      if (md5(index) === token) {
+        let user = people[index];
+        delete user.password
+        return user
+      }
+    }
+    return null
   }
 
   /**
@@ -99,8 +136,8 @@ class Api {
    */
   _people() {
     let response = [];
-    const people = this.localStorage.getItem('people')
-    const token = this.localStorage.getItem('token')
+    const people = this._getData('people')
+    const token = this._getData('token')
     Object.keys(people).forEach(index => {
       if (md5(index) !== token) {
         let user = people[index];
@@ -121,11 +158,11 @@ class Api {
    * @private
    */
   _markFriend(data) {
-    const people = this.localStorage.getItem('people')
-    if (typeof people === 'object' && people.keys().includes(data.email) ) {
+    const people = this._getData('people')
+    if (people && people.keys().includes(data.email) ) {
       let user = people[data.email]
       user.isFriend = data.isFriend;
-      this.localStorage.setItem('people', {...people, [user.email]: user})
+      this._setData('people', {...people, [user.email]: user})
       return true
     }
     return false
@@ -153,15 +190,15 @@ class Api {
    * @return {void}
    */
   init(data) {
-    let people = this.localStorage.getItem('people')
-    if ( typeof people === 'object' ) {
+    let people = this._getData('people')
+    if (people) {
       return
     }
     people = {};
     data.forEach( item => {
       people[item.email] = {...item, password: md5(item.password)}
     })
-    this.localStorage.setItem('people', people)
+    this._setData('people', people)
   }
 
   /**
@@ -186,6 +223,9 @@ class Api {
         case '/profile':
           response = {saved: this._profile(data)}
           break
+        case '/user':
+          response = {user: this._user()}
+          break
         case '/people':
           response = {people: this._people()}
           break
@@ -194,8 +234,9 @@ class Api {
           break
         default:
           return reject(this._handleResponse(response, this.STATUS_NOT_FOUND, 'Page not found'))
+          break
       }
-      return this._handleResponse(response, this.STATUS_OK, '')
+      return resolve(this._handleResponse(response, this.STATUS_OK, ''))
     })
   }
 

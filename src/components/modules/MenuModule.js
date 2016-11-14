@@ -10,7 +10,7 @@ class MenuModule extends  Component {
     let { menu } = this.props;
     return (
       <ul className="menu">
-        {menu.map( item => <li className="menu-item">
+        {menu.map( item => <li key={`menu${item.index}`}  className="menu-item">
           <Link to={item.url} className="menu-item" activeClassName="_active">{item.title}</Link>
         </li>)}
       </ul>

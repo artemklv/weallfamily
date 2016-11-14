@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import {connect} from 'react-redux';
 import ApplicationSelector from './ApplicationSelector';
 import MenuModule from '../components/modules/MenuModule'
+import ErrorModule from '../components/modules/ErrorModule'
 
 const ApplicationContainer = (props) => {
   return (
@@ -9,22 +10,16 @@ const ApplicationContainer = (props) => {
       <div className="header">
         <MenuModule menu={props.menu} />
       </div>
+      <ErrorModule error={props.error} />
       <div className="content-outer">{props.children}</div>
     </div>
   );
 };
 
 ApplicationContainer.PropTypes = {
-
+  menu: PropTypes.array.isRequired
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-  }
-}
-
-
 export default connect(
-  ApplicationSelector,
-  mapDispatchToProps
+  ApplicationSelector
 )(ApplicationContainer);
