@@ -8,10 +8,16 @@ class IndexPage extends Component {
   }
 
   render() {
-    const { login }  = this.props
+    let content
+    const { login, fullName, isAuth }  = this.props
+    if (isAuth) {
+      content = <h1>{`Здравствуйте ${fullName}`}</h1>
+    } else {
+      content = <LoginForm login={login} />
+    }
     return (
       <div className="page-index">
-        <LoginForm login={login} />
+        {content}
       </div>
 
     );

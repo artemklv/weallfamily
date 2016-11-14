@@ -9,13 +9,17 @@ const IndexPageContainer = (props) => {
     <div className="application-outer">
       <IndexPage
         login={props.login}
+        fullName={props.fullName}
+        isAuth={props.isAuth}
       />
     </div>
   );
 };
 
 IndexPageContainer.PropTypes = {
-
+  login: PropTypes.func.isRequired,
+  fullName: PropTypes.string.isRequired,
+  isAuth: PropTypes.bool.isRequired
 };
 
 function mapDispatchToProps(dispatch) {

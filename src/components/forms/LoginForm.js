@@ -13,15 +13,14 @@ class LoginForm extends Component {
       <form onSubmit={handleSubmit(this._handleFormSubmit.bind(this))}>
         <div className="form-line">
           <label className="form-label">Email:</label>
-          <Field name="email" component="input" type="text"/>
+          <Field name="email" component="input" type="text" placeholder="test@mail.ru"/>
         </div>
         <div className="form-line">
           <label className="form-label">Пароль:</label>
-          <Field name="password" component="input" type="password"/>
+          <Field name="password" component="input" type="password" placeholder="111"/>
         </div>
         <div className="form-line">
           <button type="submit">Войти</button>
-          <button type="button">Зарегистрироваться</button>
         </div>
       </form>
     )

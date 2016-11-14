@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 
-const isUserAuth = state => state.user.isAuth
-let menuItemsSelector = createSelector([isUserAuth], (isUserAuth) => {
+const user = state => state.user
+let menuItemsSelector = createSelector([user], user => {
   let index = 1
   let menuItems = [{
     title: 'Главная страница',
     url: '/',
     index
   }]
-  if (isUserAuth) {
+  if (user.isAuth) {
     menuItems.push({
       title: 'Профиль',
       url: '/profile',
@@ -23,6 +23,9 @@ let menuItemsSelector = createSelector([isUserAuth], (isUserAuth) => {
   }
   return menuItems
 });
+let isAuthSelector = createSelector([user], user => {
+  return user.isAuth
+})
 
 const error = state => state.application.error
 let errorSelector = createSelector([error], error => {
@@ -32,6 +35,7 @@ let errorSelector = createSelector([error], error => {
 export default (state) => {
   return {
     menu: menuItemsSelector(state),
-    error: errorSelector(state)
+    error: errorSelector(state),
+    isAuth: isAuthSelector(state)
   };
 };
